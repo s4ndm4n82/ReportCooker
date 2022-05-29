@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32407.343
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Report Cooker", "Report Cooker\Report Cooker.csproj", "{CDFC844E-2DC5-40BE-8F31-CEBA5CF84790}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CDFC844E-2DC5-40BE-8F31-CEBA5CF84790}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDFC844E-2DC5-40BE-8F31-CEBA5CF84790}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDFC844E-2DC5-40BE-8F31-CEBA5CF84790}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDFC844E-2DC5-40BE-8F31-CEBA5CF84790}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7B66C7AA-4CE0-4EE7-8532-C3E36EE2B885}
+	EndGlobalSection
+EndGlobal
