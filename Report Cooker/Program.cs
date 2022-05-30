@@ -41,6 +41,6 @@ string[] ReportOutputFolderNames = new string[] {"ItemsPerJob",
                                     "AuditLogCount",
                                     "TimeSpent"};
 
-RptFunctionsSet.MainBannaer();
+RptFunctionsSet.MainBanner();
 
-RptFunctionsSet.FolderCheck(MainReportOutputPath, ReportOutputFolderNames);
+RptFunctionsSet.ServerSelectMenu();
