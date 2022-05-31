@@ -41,6 +41,51 @@ string[] ReportOutputFolderNames = new string[] {"ItemsPerJob",
                                     "AuditLogCount",
                                     "TimeSpent"};
 
-RptFunctionsSet.MainBanner();
+var Choice = -0x1;
+var NewLine = Environment.NewLine;
 
-RptFunctionsSet.ServerSelectMenu();
+while (Choice != 0)
+{
+    Console.Clear();
+
+    RptFunctionsSet.MainBanner();
+
+    Console.WriteLine(
+    "       Select a server, from below.{0}" +
+    "           1. Navitro-02 Server (Old Server).{0}" +
+    "           2. DCProd-01 Server (New Server).{0}" +
+    "           x. Exit Program{0}", NewLine);
+
+    Console.Write("       Enter your choice: ");
+    string? StringChoice = Console.ReadLine();
+
+    if ((StringChoice == "x") || (StringChoice == "X"))
+    {
+        StringChoice = "0";
+    }
+
+    Choice = int.Parse(StringChoice);
+
+    switch (Choice)
+    {
+        case 0:
+            Console.WriteLine("{0}       Good Bye ... !", NewLine);
+            Thread.Sleep(1500);
+            break;
+
+        case 1:
+            RptFunctionsSet.RptOldServer();
+            Choice = 0;
+            break;
+
+        case 2:
+            RptFunctionsSet.RptNewServer();
+            Choice = 0;
+            break;
+
+        default:
+            Console.WriteLine("{0}       Invalid choice try again.", NewLine);
+            Thread.Sleep(1500);
+            break;
+    }
+}

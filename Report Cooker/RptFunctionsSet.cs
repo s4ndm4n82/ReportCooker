@@ -60,50 +60,8 @@ namespace RptFunctionsSetClass
             }
         }
 
-        public static void ServerSelectMenu()
-        {
-            var Choice = -0x1;
-            var NewLine = Environment.NewLine;
-
-            while (Choice != 0)
-            {
-                Console.WriteLine(
-                "       Select a server, from below.{0}" +
-                "           1. Navitro-02 Server (Old Server).{0}" +
-                "           2. DCProd-01 Server (New Server).{0}" +
-                "           x. Exit Program{0}", NewLine);
-                
-                Console.Write("Enter your choice: ");                
-                string StringChoice = Console.ReadLine();
-
-                if ((StringChoice == "x") || (StringChoice == "X"))
-                {
-                    StringChoice = "0";
-                }
-
-                Choice = int.Parse(StringChoice);
-
-                switch (Choice)
-                {
-                    case 1:
-                        RptOldServer();
-                        Choice = 0;
-                        break;
-
-                    case 2:
-                        RptNewServer();
-                        Choice = 0;
-                        break;
-
-                    default:
-                        Console.WriteLine("Invalid choice try again.");
-                        Thread.Sleep(1000);
-                        break;
-                }
-            }
-        }
-
-        public static void RptOldServer()
+        public static void RptOldServer(string _CapExecutablePath, string _ExeName, string _ReportCreateParam
+                                        , string UsedFieldName)
         {
             Console.WriteLine("Reports from old server.");
         }
