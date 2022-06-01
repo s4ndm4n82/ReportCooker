@@ -61,18 +61,29 @@ namespace RptFunctionsSetClass
 
         public static void RptOldServer(List<RptVariablesClass> RptVariablesList)
         {
+            string _WorkingDirectory = string.Empty;
+            string _CapExecutablePAth = string.Empty;
+            string _ExeName = string.Empty;
+            string __ReportCreateParam = string.Empty;
+            string[] _OutputFolderNames = new string[] { };
+
             foreach (var RptVariable in RptVariablesList)
             {
-                Console.WriteLine("Working Directory: {0}", RptVariable.WorkingDirectory);
-                Console.WriteLine("Program Path: {0}", RptVariable.CapExecutablePath);
-                Console.WriteLine("Main Rpt Output: {0}", RptVariable.MainReportOutputPath);
-                Console.WriteLine("CAP Path: {0}", RptVariable.CapExecutablePath);
+                _WorkingDirectory = RptVariable.WorkingDirectory;
+                //Console.WriteLine("Working Directory: {0}", RptVariable.WorkingDirectory);
+                //Console.WriteLine("Program Path: {0}", RptVariable.CapExecutablePath);
+                //Console.WriteLine("Main Rpt Output: {0}", RptVariable.MainReportOutputPath);
+                //Console.WriteLine("CAP Path: {0}", RptVariable.CapExecutablePath);
 
-                foreach (var RptFile in RptVariable.ReportOutputFolderNames)
-                {
-                    Console.WriteLine("Report Folders: {0}", RptFile);
-                }
+                _OutputFolderNames = RptVariable.ReportOutputFolderNames;
             }
+
+            Console.WriteLine("Working Directory Outside Foreach: {0}", _WorkingDirectory);
+            foreach (string _OutputFolderName in _OutputFolderNames)
+            {
+                Console.WriteLine("Folder name Out side main foreach: {0}", _OutputFolderName);
+            }
+
         }
 
         public static void RptNewServer()
