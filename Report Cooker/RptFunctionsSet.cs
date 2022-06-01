@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RptVariables;
 
 namespace RptFunctionsSetClass
 {
     internal class RptFunctionsSet
     {
+        public static string ProgramfilesPath = Environment.GetEnvironmentVariable("ProgramFiles(x86)");
+
         //The banner.
         public static void MainBanner()
         {
@@ -60,10 +59,20 @@ namespace RptFunctionsSetClass
             }
         }
 
-        public static void RptOldServer(string _CapExecutablePath, string _ExeName, string _ReportCreateParam
-                                        , string UsedFieldName)
+        public static void RptOldServer(List<RptVariablesClass> RptVariablesList)
         {
-            Console.WriteLine("Reports from old server.");
+            foreach (var RptVariable in RptVariablesList)
+            {
+                Console.WriteLine("Working Directory: {0}", RptVariable.WorkingDirectory);
+                Console.WriteLine("Program Path: {0}", RptVariable.CapExecutablePath);
+                Console.WriteLine("Main Rpt Output: {0}", RptVariable.MainReportOutputPath);
+                Console.WriteLine("CAP Path: {0}", RptVariable.CapExecutablePath);
+
+                foreach (var RptFile in RptVariable.ReportOutputFolderNames)
+                {
+                    Console.WriteLine("Report Folders: {0}", RptFile);
+                }
+            }
         }
 
         public static void RptNewServer()

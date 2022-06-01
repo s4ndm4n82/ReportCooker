@@ -1,5 +1,8 @@
 ﻿using RptFunctionsSetClass;
+using RptVariables;
 
+string? ProgramfilesPath = Environment.GetEnvironmentVariable("ProgramFiles(x86)");
+/*
 //Variable declaration.
 //For the MC.
 string WorkingDirectory = Directory.GetCurrentDirectory(); //Current working directory.
@@ -39,14 +42,47 @@ string[] ReportOutputFolderNames = new string[] {"ItemsPerJob",
                                     "GroupByFieldsJobColumns",
                                     "AuditLogFieldChanges",
                                     "AuditLogCount",
-                                    "TimeSpent"};
+                                    "TimeSpent"};*/
+
+List <RptVariablesClass> RptVariablesList = new List<RptVariablesClass>
+{
+    new RptVariablesClass
+    {
+        WorkingDirectory            = Directory.GetCurrentDirectory(),
+        CapExecutablePath           = @$"{ProgramfilesPath}\Navitro\CAP\",
+        ExeName                     = "ManagementConsole.exe",
+        ReportCreateParam           = "/CreateReport",
+        UsedFieldName               = "Voucher Type",
+        MainReportOutputPath        = Path.Combine(Directory.GetCurrentDirectory(), "Reports"),
+        ReportNames                 = new string[] {"Items Per Job",
+                                        "Items Per Job Detailed",
+                                        "Imported Exported",
+                                        "GroupBy Fields",
+                                        "Group By Fields Job Columns",
+                                        "Group By Fields Job Columns",
+                                        "Audit Log Field Changes",
+                                        "Audit Log Count",
+                                        "Time Spent"},
+        ReportOutputFolderNames     = new string[] {"ItemsPerJob",
+                                        "ItemsPerJobDetailed",
+                                        "ImportedExported",
+                                        "GroupByFields",
+                                        "GroupByFieldsJobColumns",
+                                        "GroupByFieldsJobColumns",
+                                        "AuditLogFieldChanges",
+                                        "AuditLogCount",
+                                        "TimeSpent"}
+    }
+
+
+};
 
 var Choice = -0x1;
 var NewLine = Environment.NewLine;
 
 while (Choice != 0)
 {
-    Console.Clear();
+    //Console.Clear();
 
     RptFunctionsSet.MainBanner();
 
@@ -74,7 +110,7 @@ while (Choice != 0)
             break;
 
         case 1:
-            RptFunctionsSet.RptOldServer();
+            RptFunctionsSet.RptOldServer(RptVariablesList);
             Choice = 0;
             break;
 
