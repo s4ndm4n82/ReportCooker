@@ -1,48 +1,22 @@
-﻿using RptFunctionsSetClass;
+﻿using Microsoft.Extensions.Configuration;
+using RptFunctionsSetClass;
 using RptVariables;
 
+var _AppConfig = LoadAppSecrets();
+
+if(_AppConfig == null)
+{
+    Console.WriteLine("User secrets not set or cannot be found.");
+    return;
+}
+
+var _DataBaseUser = _AppConfig["DataBaseUser"];
+var _DataBaseTableV2 = _AppConfig["DataBaseTableV2"];
+var _DataBaseTableV1 = _AppConfig["DataBaseTableV1"];
+var _DataBaseAddress = _AppConfig["DataBaseAddress"];
+var _DataBasePassword = _AppConfig["DataBasePassword"];
+
 string? ProgramfilesPath = Environment.GetEnvironmentVariable("ProgramFiles(x86)");
-/*
-//Variable declaration.
-//For the MC.
-string WorkingDirectory = Directory.GetCurrentDirectory(); //Current working directory.
-string? ProgramfilesPath = Environment.GetEnvironmentVariable("ProgramFiles(x86)"); //Program Files path from Windows.
-string CapExecutablePath = @$"{ProgramfilesPath}\Navitro\CAP\"; //Concating the path with the program files path.
-string ExeName = "ManagementConsole.exe"; //CAP execuable name.
-string ReportCreateParam = "/CreateReport"; //Report parametere.
-
-//TODO: For database detail get from secrets.
-
-//Used field.
-string UsedFieldName = "Voucher Type";
-
-//Main report output folder path.
-string MainReportOutputPath = Path.Combine(WorkingDirectory,"Reports");
-
-//Report output type array.
-string[] ReportOutTypes = new string[] { "PDF", "EXCEL", "WORD" };
-
-//Report name array.
-string[] ReportNames = new string[] {"Items Per Job",
-                                    "Items Per Job Detailed",
-                                    "Imported Exported",
-                                    "GroupBy Fields",
-                                    "Group By Fields Job Columns",
-                                    "Group By Fields Job Columns",
-                                    "Audit Log Field Changes",
-                                    "Audit Log Count",
-                                    "Time Spent"};
-
-//Report output folder nmaes.
-string[] ReportOutputFolderNames = new string[] {"ItemsPerJob",
-                                    "ItemsPerJobDetailed",
-                                    "ImportedExported",
-                                    "GroupByFields",
-                                    "GroupByFieldsJobColumns",
-                                    "GroupByFieldsJobColumns",
-                                    "AuditLogFieldChanges",
-                                    "AuditLogCount",
-                                    "TimeSpent"};*/
 
 List <RptVariablesClass> RptVariablesList = new List<RptVariablesClass>
 {
@@ -58,7 +32,6 @@ List <RptVariablesClass> RptVariablesList = new List<RptVariablesClass>
                                         "Items Per Job Detailed",
                                         "Imported Exported",
                                         "GroupBy Fields",
-                                        "Group By Fields Job Columns",
                                         "Group By Fields Job Columns",
                                         "Audit Log Field Changes",
                                         "Audit Log Count",
@@ -124,4 +97,22 @@ while (Choice != 0)
             Thread.Sleep(1500);
             break;
     }
+}
+
+static IConfigurationRoot? LoadAppSecrets()
+{
+    var AppConfig = new ConfigurationBuilder()
+                    .AddUserSecrets<Program>()
+                    .Build();
+
+    if (string.IsNullOrEmpty(AppConfig["DataBaseUser"])||
+        string.IsNullOrEmpty(AppConfig["DataBaseTableV2"])||
+        string.IsNullOrEmpty(AppConfig["DataBaseTableV1"])||
+        string.IsNullOrEmpty(AppConfig["DataBaseAddress"])||
+        string.IsNullOrEmpty(AppConfig["DataBasePassword"]))
+    {
+        return null;
+    }
+
+    return AppConfig;
 }

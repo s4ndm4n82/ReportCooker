@@ -59,31 +59,43 @@ namespace RptFunctionsSetClass
             }
         }
 
+        //Function to create the reports from the old server.
         public static void RptOldServer(List<RptVariablesClass> RptVariablesList)
         {
             string _WorkingDirectory = string.Empty;
-            string _CapExecutablePAth = string.Empty;
+            string _CapExecutablePath = string.Empty;
             string _ExeName = string.Empty;
-            string __ReportCreateParam = string.Empty;
+            string _ReportCreateParam = string.Empty;
+            string[] _ReportNames = new string[] { };
             string[] _OutputFolderNames = new string[] { };
+
+            int SelectedReport = -0x1;
 
             foreach (var RptVariable in RptVariablesList)
             {
                 _WorkingDirectory = RptVariable.WorkingDirectory;
-                //Console.WriteLine("Working Directory: {0}", RptVariable.WorkingDirectory);
-                //Console.WriteLine("Program Path: {0}", RptVariable.CapExecutablePath);
-                //Console.WriteLine("Main Rpt Output: {0}", RptVariable.MainReportOutputPath);
-                //Console.WriteLine("CAP Path: {0}", RptVariable.CapExecutablePath);
+                _CapExecutablePath = RptVariable.CapExecutablePath;
+                _ExeName = RptVariable.ExeName;
+                _ReportCreateParam = RptVariable.ReportCreateParam;
 
+                //String arrays.
+                _ReportNames = RptVariable.ReportNames;
                 _OutputFolderNames = RptVariable.ReportOutputFolderNames;
             }
 
-            Console.WriteLine("Working Directory Outside Foreach: {0}", _WorkingDirectory);
-            foreach (string _OutputFolderName in _OutputFolderNames)
+            Console.WriteLine("       Select your report.");
+            for (int i = 0; i < _ReportNames.Count(); ++i)
             {
-                Console.WriteLine("Folder name Out side main foreach: {0}", _OutputFolderName);
+                Console.WriteLine("           {0}. {1}", i, _ReportNames[i]);
             }
+            Console.Write("Enter report index number: ");            
+            SelectedReport = int.Parse(Console.ReadLine());
 
+            switch (SelectedReport)
+            {
+                //case 0:
+                    //TODO: 1. Makes the menu and the function for the old server.
+            }
         }
 
         public static void RptNewServer()
