@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Text.RegularExpressions;
 using RptVariables;
 
 namespace RptFunctionsSetClass
@@ -60,16 +60,18 @@ namespace RptFunctionsSetClass
         }
 
         //Function to create the reports from the old server.
-        public static void RptOldServer(List<RptVariablesClass> RptVariablesList)
+        public static async Task RptOldServerAsync(List<RptVariablesClass> RptVariablesList, string __DataBaseUser, string __DataBaseTable, string __DataBaseAddress, string __DataBasePassword)
         {
-            string _WorkingDirectory = string.Empty;
-            string _CapExecutablePath = string.Empty;
-            string _ExeName = string.Empty;
-            string _ReportCreateParam = string.Empty;
-            string[] _ReportNames = new string[] { };
-            string[] _OutputFolderNames = new string[] { };
+            string _WorkingDirectory        = string.Empty;
+            string _CapExecutablePath       = string.Empty;
+            string _ExeName                 = string.Empty;
+            string _ReportCreateParam       = string.Empty;
+            string _ReportName              = string.Empty;
+            string _OutputFolderName        = string.Empty;
+            string[] _ReportNames           = new string[] { };
+            string[] _OutputFolderNames     = new string[] { };
 
-            int SelectedReport = -0x1;
+            int SelectedReport = -0x1; //Minux one in hexa.
 
             foreach (var RptVariable in RptVariablesList)
             {
@@ -83,24 +85,75 @@ namespace RptFunctionsSetClass
                 _OutputFolderNames = RptVariable.ReportOutputFolderNames;
             }
 
-            Console.WriteLine("       Select your report.");
-            for (int i = 0; i < _ReportNames.Count(); ++i)
+            while (SelectedReport != -3)
             {
-                Console.WriteLine("           {0}. {1}", i, _ReportNames[i]);
-            }
-            Console.Write("Enter report index number: ");            
-            SelectedReport = int.Parse(Console.ReadLine());
+                Console.WriteLine("       Select your report.");
+                for (int i = 0; i < _ReportNames.Count(); i++)
+                {
+                    Console.WriteLine("           {0}. {1}", i, _ReportNames[i]);
+                }
+                Console.WriteLine("           b. Go Back to Server Selection.");
+                Console.WriteLine("           x. Exit.");
+                Console.Write("{0}Enter report index number: ", Environment.NewLine);
 
-            switch (SelectedReport)
-            {
-                //case 0:
-                    //TODO: 1. Makes the menu and the function for the old server.
+                string? UserRptChoice = Console.ReadLine()!;
+
+                if (UserRptChoice == "x" || UserRptChoice == "X")
+                {
+                    UserRptChoice = "-3";
+                }
+
+                if (UserRptChoice == "b" || UserRptChoice == "B")
+                {
+                    UserRptChoice = "-2";
+                }
+
+                SelectedReport = int.Parse(UserRptChoice);                
             }
+
+            for (int i = 0; i < _ReportNames.Count(); i++)
+            {
+                if (i == SelectedReport)
+                {
+                    _ReportName = Regex.Replace(_ReportNames[i], @"\s+", string.Empty);
+
+                    for (int j = 0; j < _OutputFolderNames.Count(); j++)
+                    {
+                        if (j == i)
+                        {
+                            _OutputFolderName = _OutputFolderNames[j];
+                        }
+                    }
+
+                    break;
+                }
+            }
+            //TODO: 1. Need stop the function from running regardless of option selected or not.
+            //TODO: 2. Check for valid entries using the same loop like _ReportNames.Count() != SelectedReport || SelectedReport != -3 || SelectedReport != -2.
+            await RunCapReportMaker(_CapExecutablePath, _ExeName, _ReportCreateParam, _ReportName, _OutputFolderName, __DataBaseUser, __DataBaseTable, __DataBaseAddress, __DataBasePassword);
         }
 
         public static void RptNewServer()
         {
             Console.WriteLine("Reports from new server.");
+        }
+
+        public static async Task RunCapReportMaker(string CapPath, string CapExeName, string CapArgs, string RptName, string RptOutFolder, string DBUser, string DBTable, string DBAddress, string DBPass)
+        {
+            try
+            {
+                var FullPathToCap = Path.Combine(CapPath, CapExeName);
+
+                Console.WriteLine("CAP Path: {0}", FullPathToCap);
+
+                //Process CallCapProcess = new Process();
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }

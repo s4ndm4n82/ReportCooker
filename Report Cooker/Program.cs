@@ -10,11 +10,11 @@ if(_AppConfig == null)
     return;
 }
 
-var _DataBaseUser = _AppConfig["DataBaseUser"];
-var _DataBaseTableV2 = _AppConfig["DataBaseTableV2"];
-var _DataBaseTableV1 = _AppConfig["DataBaseTableV1"];
-var _DataBaseAddress = _AppConfig["DataBaseAddress"];
-var _DataBasePassword = _AppConfig["DataBasePassword"];
+var _DataBaseUser       = _AppConfig["DataBaseUser"];
+var _DataBaseTableV2    = _AppConfig["DataBaseTableV2"];
+var _DataBaseTableV1    = _AppConfig["DataBaseTableV1"];
+var _DataBaseAddress    = _AppConfig["DataBaseAddress"];
+var _DataBasePassword   = _AppConfig["DataBasePassword"];
 
 string? ProgramfilesPath = Environment.GetEnvironmentVariable("ProgramFiles(x86)");
 
@@ -23,7 +23,7 @@ List <RptVariablesClass> RptVariablesList = new List<RptVariablesClass>
     new RptVariablesClass
     {
         WorkingDirectory            = Directory.GetCurrentDirectory(),
-        CapExecutablePath           = @$"{ProgramfilesPath}\Navitro\CAP\",
+        CapExecutablePath           = @$"{ProgramfilesPath}\Navitro\CAP",
         ExeName                     = "ManagementConsole.exe",
         ReportCreateParam           = "/CreateReport",
         UsedFieldName               = "Voucher Type",
@@ -40,7 +40,6 @@ List <RptVariablesClass> RptVariablesList = new List<RptVariablesClass>
                                         "ItemsPerJobDetailed",
                                         "ImportedExported",
                                         "GroupByFields",
-                                        "GroupByFieldsJobColumns",
                                         "GroupByFieldsJobColumns",
                                         "AuditLogFieldChanges",
                                         "AuditLogCount",
@@ -83,7 +82,7 @@ while (Choice != 0)
             break;
 
         case 1:
-            RptFunctionsSet.RptOldServer(RptVariablesList);
+            RptFunctionsSet.RptOldServerAsync(RptVariablesList, _DataBaseUser, _DataBaseTableV1, _DataBaseAddress, _DataBasePassword);
             Choice = 0;
             break;
 
