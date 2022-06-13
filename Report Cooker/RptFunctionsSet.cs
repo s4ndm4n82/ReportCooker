@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Diagnostics;
+using System.Text.RegularExpressions;
 using RptVariables;
 
 namespace RptFunctionsSetClass
@@ -62,6 +63,8 @@ namespace RptFunctionsSetClass
         //Function to create the reports from the old server.
         public static async Task RptOldServerAsync(List<RptVariablesClass> RptVariablesList, string __DataBaseUser, string __DataBaseTable, string __DataBaseAddress, string __DataBasePassword)
         {
+            string RptStartDate             = string.Empty;
+            string RptEndDate               = string.Empty;
             string _WorkingDirectory        = string.Empty;
             string _CapExecutablePath       = string.Empty;
             string _ExeName                 = string.Empty;
@@ -108,29 +111,39 @@ namespace RptFunctionsSetClass
                     UserRptChoice = "-2";
                 }
 
-                SelectedReport = int.Parse(UserRptChoice);                
-            }
+                SelectedReport = int.Parse(UserRptChoice);
 
-            for (int i = 0; i < _ReportNames.Count(); i++)
-            {
-                if (i == SelectedReport)
+                for (int i = 0; i < _ReportNames.Count(); i++)
                 {
-                    _ReportName = Regex.Replace(_ReportNames[i], @"\s+", string.Empty);
-
-                    for (int j = 0; j < _OutputFolderNames.Count(); j++)
+                    if (i == SelectedReport)
                     {
-                        if (j == i)
-                        {
-                            _OutputFolderName = _OutputFolderNames[j];
-                        }
-                    }
+                        _ReportName = Regex.Replace(_ReportNames[i], @"\s+", string.Empty);
 
-                    break;
+                        for (int j = 0; j < _OutputFolderNames.Count(); j++)
+                        {
+                            if (j == i)
+                            {
+                                _OutputFolderName = _OutputFolderNames[j];
+                            }
+                        }
+
+                        break;
+                    }
                 }
-            }
-            //TODO: 1. Need stop the function from running regardless of option selected or not.
-            //TODO: 2. Check for valid entries using the same loop like _ReportNames.Count() != SelectedReport || SelectedReport != -3 || SelectedReport != -2.
-            await RunCapReportMaker(_CapExecutablePath, _ExeName, _ReportCreateParam, _ReportName, _OutputFolderName, __DataBaseUser, __DataBaseTable, __DataBaseAddress, __DataBasePassword);
+                
+                if (_ReportName != string.Empty)
+                {
+                    Console.WriteLine("Enter Start and End Date. Use the Format dd.mm.yyyy");
+                    Console.Write("Enter Report Start Date: ");
+                    RptStartDate = Console.ReadLine()!;
+                    Console.WriteLine(Environment.NewLine);
+                    Console.Write("Enter Report End Date: ");
+                    RptEndDate = Console.ReadLine()!;
+                }
+                //TODO: 1. Need stop the function from running regardless of option selected or not.
+                //TODO: 2. Check for valid entries using the same loop like _ReportNames.Count() != SelectedReport || SelectedReport != -3 || SelectedReport != -2.
+                await RunCapReportMaker(_CapExecutablePath, _ExeName, _ReportCreateParam, _ReportName, _OutputFolderName, __DataBaseUser, __DataBaseTable, __DataBaseAddress, __DataBasePassword);
+            }            
         }
 
         public static void RptNewServer()
@@ -146,9 +159,10 @@ namespace RptFunctionsSetClass
 
                 Console.WriteLine("CAP Path: {0}", FullPathToCap);
 
-                //Process CallCapProcess = new Process();
+                Process CallCapProcess = new Process();
 
-
+                CallCapProcess.StartInfo.FileName = FullPathToCap;
+                CallCapProcess.StartInfo.Arguments = $"{CapArgs} {RptName}";
             }
             catch (Exception ex)
             {
